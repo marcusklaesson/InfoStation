@@ -8,7 +8,7 @@ data class CustomModel(
     val day: String? = "",
     val month: String? = "",
     val year: String? = "",
-    val temp: Int = 0,
+    val temp: String = "",
     val city: String? = "",
     val icon: String? = ""
 )

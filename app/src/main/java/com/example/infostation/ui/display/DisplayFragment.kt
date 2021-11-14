@@ -19,12 +19,15 @@ class DisplayFragment : Fragment(R.layout.fragment_display) {
     }
 
     private fun setupAdapter() {
-        viewModel.displayValues.observe(viewLifecycleOwner, {
-            adapter = DisplayAdapter(it)
-            recycler_view.adapter = adapter
-            adapter.notifyDataSetChanged()
+        viewModel.time.observe(viewLifecycleOwner, { time ->
+            viewModel.date.observe(viewLifecycleOwner, { date ->
+                viewModel.temp.observe(viewLifecycleOwner, { temp ->
+                    adapter = DisplayAdapter(arrayListOf(time, date, temp))
+                    recycler_view.adapter = adapter
+                    adapter.notifyDataSetChanged()
+                })
+            })
         })
 
     }
-
 }
