@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">InfoStation</string>
+    <string name="january">januari</string>
+    <string name="february">februari</string>
+    <string name="march">mars</string>
+    <string name="april">april</string>
+    <string name="may">maj</string>
+    <string name="june">juni</string>
+    <string name="july">juli</string>
+    <string name="august">augusti</string>
+    <string name="september">september</string>
+    <string name="october">oktober</string>
+    <string name="november">november</string>
+    <string name="december">december</string>
+</resources>
