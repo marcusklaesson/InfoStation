@@ -10,6 +10,7 @@ class BaseApplication : Application() {
             private set
     }
 
+
     override fun onCreate() {
         super.onCreate()
         instance = this
