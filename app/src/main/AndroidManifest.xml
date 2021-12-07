@@ -3,6 +3,8 @@
     package="com.example.infostation">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name="com.example.infostation.ui.BaseApplication"
@@ -14,7 +16,8 @@
         android:theme="@style/Theme.InfoStation">
         <activity
             android:name="com.example.infostation.ui.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

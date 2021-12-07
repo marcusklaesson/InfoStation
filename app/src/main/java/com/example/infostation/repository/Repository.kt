@@ -7,8 +7,8 @@ import javax.inject.Singleton
 
 @Singleton
 class Repository @Inject constructor(private val service: WeatherService) {
-    fun weather(callback: (BackendResult<Weather>) -> Unit) {
-        service.weather { result ->
+    fun weather(latitude: String,longitude:String, callback: (BackendResult<Weather>) -> Unit) {
+        service.weather(latitude,longitude) { result ->
             when (result) {
                 is BackendResult.Success -> callback(BackendResult.Success(result.data))
                 is BackendResult.Error -> callback(BackendResult.Error(result.message))
