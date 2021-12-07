@@ -3,8 +3,8 @@ package com.example.infostation.view
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -77,7 +77,11 @@ class InfoFragment : Fragment(R.layout.fragment_display), OnTempClickListener {
                     getLocation()
                 }
                 else -> {
-                    Log.d("tag", "Permission error")
+                    Toast.makeText(
+                        context,
+                        "Permission error, please restart the app",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }
