@@ -21,4 +21,6 @@
     <string name="sunday">söndag</string>
     <string name="weather_updated">"Vädret uppdaterades: "</string>
     <string name="week">v.</string>
+    <string name="fahrenheit">°F</string>
+    <string name="celsius">°C</string>
 </resources>

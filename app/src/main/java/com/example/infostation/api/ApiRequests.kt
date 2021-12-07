@@ -10,7 +10,7 @@ interface ApiRequests {
     fun getWeather(
         @Query("lat") latitude: String,
         @Query("lon") longitude: String,
-        @Query("units") celsius: String,
+        @Query("units") units: String,
         @Query("lang") lang: String,
         @Query("APPID") api_key: String
     ): Call<Weather>

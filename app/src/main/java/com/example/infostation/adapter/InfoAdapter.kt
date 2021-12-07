@@ -1,4 +1,4 @@
-package com.example.infostation.ui.display
+package com.example.infostation.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +8,13 @@ import com.bumptech.glide.Glide
 import com.example.infostation.R
 import com.example.infostation.api.API
 import com.example.infostation.models.Weather
+import com.example.infostation.view.prefs
+import com.example.infostation.viewmodel.CELSIUS
+import com.example.infostation.viewmodel.ValueType
 import kotlinx.android.synthetic.main.item_date.view.*
 import kotlinx.android.synthetic.main.item_time.view.*
 import kotlinx.android.synthetic.main.item_weather.view.*
+import kotlin.math.roundToInt
 
 enum class MonthType {
     JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER
@@ -20,9 +24,13 @@ enum class DayType {
     MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
 }
 
+interface OnTempClickListener {
+    fun onItemClicked()
+}
 
 class DisplayAdapter(
-    private var displayData: ArrayList<Weather?>
+    private var displayData: ArrayList<Weather?>,
+    private var clickListener: OnTempClickListener
 ) : RecyclerView.Adapter<DisplayAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -98,19 +106,32 @@ class DisplayAdapter(
             }
             ValueType.DATE -> {
                 holder.itemView.apply {
-                    date.text = "${display?.day} $month ${display?.year}"
+                    date.text = "${display.day} $month ${display.year}"
                     week_and_day.text =
                         context.getString(R.string.week) + display.week.toString() + " " + day
                 }
             }
             ValueType.TEMP -> {
                 holder.itemView.apply {
-                    weather.text = "${display?.temp}°C ${display?.city}"
+                    val unit = if (prefs.prefUnit == CELSIUS) {
+                        "${display.temp?.roundToInt()}${context.getString(R.string.celsius)}"
+
+                    } else {
+                        "${display.temp}${context.getString(R.string.fahrenheit)}"
+                    }
+                    weather.text = "$unit ${display.city}"
+
+                    val windSpeed = if (prefs.prefUnit == CELSIUS) "m/s" else "mph"
+                    wind.text = "${display.windSpeed.toString()} $windSpeed"
+
                     icon.visibility = View.VISIBLE
-                    description.text = display?.description ?: ""
+                    description.text = display.description
+                    weather.setOnClickListener {
+                        clickListener.onItemClicked()
+                    }
                 }
                 Glide.with(holder.itemView.context)
-                    .load(API.ICON_URL + (display?.icon ?: "") + API.ICON_FORMAT)
+                    .load(API.ICON_URL + (display.icon) + API.ICON_FORMAT)
                     .into(holder.itemView.icon)
             }
         }

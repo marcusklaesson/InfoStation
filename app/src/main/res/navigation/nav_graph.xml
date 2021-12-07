@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/displayFragment"
-        android:name="com.example.infostation.ui.DisplayFragment"
+        android:name="com.example.infostation.view.InfoFragment"
         android:label="fragment_display"
         tools:layout="@layout/fragment_display" />
 </navigation>

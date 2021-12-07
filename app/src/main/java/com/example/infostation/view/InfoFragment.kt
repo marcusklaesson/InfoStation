@@ -1,4 +1,4 @@
-package com.example.infostation.ui
+package com.example.infostation.view
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -9,46 +9,60 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LiveData
 import com.example.infostation.R
-import com.example.infostation.ui.display.DisplayAdapter
-import com.example.infostation.ui.display.DisplayViewModel
-import com.example.infostation.ui.display.FIFTEEN_MINUTES
-import com.example.infostation.utils.combine
+import com.example.infostation.adapter.DisplayAdapter
+import com.example.infostation.adapter.OnTempClickListener
+import com.example.infostation.models.Weather
+import com.example.infostation.viewmodel.*
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_display.*
+import kotlinx.android.synthetic.main.item_weather.view.*
 import java.util.*
 import kotlin.concurrent.fixedRateTimer
 
 
 @AndroidEntryPoint
-class DisplayFragment : Fragment(R.layout.fragment_display) {
+class InfoFragment : Fragment(R.layout.fragment_display), OnTempClickListener {
     private lateinit var adapter: DisplayAdapter
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val viewModel: DisplayViewModel by activityViewModels()
+    private var latitude = 0.0
+    private var longitude = 0.0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         checkLocationPermission()
-        setupAdapter()
+        setupObservers()
     }
 
-    private fun setupAdapter() {
-        val data = combine(viewModel.time, viewModel.date, viewModel.temp) { time, date, temp ->
-            arrayListOf(time, date, temp)
-        }
-        data.observe(viewLifecycleOwner, {
-            it?.map { time ->
-                if (time != null) {
-                    timestamp.text = getString(R.string.weather_updated) + time?.timeStamp
-                }
-            }?.toString()
-            adapter = DisplayAdapter(it)
-            recycler_view.adapter = adapter
-            adapter.notifyDataSetChanged()
+    private fun setupObservers() {
+        observerLiveData(viewModel.setupLiveDataLists())
+    }
+
+    private fun observerLiveData(data: LiveData<ArrayList<Weather?>>) {
+        data.observe(viewLifecycleOwner, { weather ->
+            setupTimeStampText(weather)
+            setupAdapter(weather)
         })
+    }
+
+    private fun setupTimeStampText(weather: ArrayList<Weather?>) {
+        weather.map { time ->
+            if (time != null) {
+                timestamp.text = getString(R.string.weather_updated) + time?.timeStamp
+            }
+        }.toString()
+    }
+
+    private fun setupAdapter(weather: ArrayList<Weather?>) {
+        adapter = DisplayAdapter(weather, this)
+        recycler_view.adapter = adapter
+        adapter.notifyDataSetChanged()
     }
 
     private fun checkLocationPermission() {
@@ -63,7 +77,7 @@ class DisplayFragment : Fragment(R.layout.fragment_display) {
                     getLocation()
                 }
                 else -> {
-                    Log.d("tag", "error permission")
+                    Log.d("tag", "Permission error")
                 }
             }
         }
@@ -91,12 +105,19 @@ class DisplayFragment : Fragment(R.layout.fragment_display) {
             }
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
+                    latitude = location.latitude
+                    longitude = location.longitude
                     viewModel.setupWeather(
                         location.latitude.toString(),
-                        location.longitude.toString()
+                        location.longitude.toString(),
+                        prefs.prefUnit.toString()
                     )
                 }
-
         }
     }
+
+    override fun onItemClicked() {
+        viewModel.updateUnit(latitude.toString(), longitude.toString())
+    }
+
 }

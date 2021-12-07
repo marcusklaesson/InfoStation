@@ -1,7 +1,7 @@
 package com.example.infostation.di
 
 import android.content.Context
-import com.example.infostation.ui.BaseApplication
+import com.example.infostation.view.BaseApplication
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#272727"
     android:keepScreenOn="true"
-    tools:context=".ui.DisplayFragment">
+    tools:context=".view.InfoFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

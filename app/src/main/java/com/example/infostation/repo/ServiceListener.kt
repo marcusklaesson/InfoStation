@@ -1,4 +1,4 @@
-package com.example.infostation.repository
+package com.example.infostation.repo
 
 import android.util.Log
 import com.example.infostation.api.API
@@ -13,12 +13,23 @@ import java.util.*
 import javax.inject.Inject
 
 interface WeatherServiceListener {
-    fun weather(latitude: String, longitude: String, callback: BackendCallback<Weather>)
+    fun weather(latitude: String, longitude: String,units:String, callback: BackendCallback<Weather>)
 }
 
 class WeatherService @Inject constructor() : WeatherServiceListener {
-    override fun weather(latitude: String, longitude: String, callback: BackendCallback<Weather>) {
-        ApiClient.service.getWeather(latitude, longitude, "metric", Locale.getDefault().language, API.KEY)
+    override fun weather(
+        latitude: String,
+        longitude: String,
+        units: String,
+        callback: BackendCallback<Weather>
+    ) {
+        ApiClient.service.getWeather(
+            latitude,
+            longitude,
+            units,
+            Locale.getDefault().language,
+            API.KEY
+        )
             .enqueue(object : Callback<Weather> {
                 override fun onResponse(call: Call<Weather>, response: Response<Weather>) {
                     if (response.isSuccessful) {
