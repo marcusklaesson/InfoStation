@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">InfoStation</string>
+    <string name="app_name">Info Station</string>
     <string name="january">januari</string>
     <string name="february">februari</string>
     <string name="march">mars</string>
@@ -12,4 +12,15 @@
     <string name="october">oktober</string>
     <string name="november">november</string>
     <string name="december">december</string>
+    <string name="monday">måndag</string>
+    <string name="tuesday">tisdag</string>
+    <string name="wednesday">onsdag</string>
+    <string name="thursday">torsdag</string>
+    <string name="friday">fredag</string>
+    <string name="saturday">lördag</string>
+    <string name="sunday">söndag</string>
+    <string name="weather_updated">"Vädret uppdaterades: "</string>
+    <string name="week">v.</string>
+    <string name="fahrenheit">°F</string>
+    <string name="celsius">°C</string>
 </resources>
