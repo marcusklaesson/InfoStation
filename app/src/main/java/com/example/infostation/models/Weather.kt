@@ -4,7 +4,7 @@ import com.example.infostation.viewmodel.ValueType
 
 data class Weather(
     val time: String? = "",
-    val type: ValueType,
+    val type: ValueType? = null,
     val day: String? = "",
     val month: String? = "",
     val year: String? = "",

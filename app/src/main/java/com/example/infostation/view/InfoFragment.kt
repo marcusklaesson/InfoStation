@@ -20,6 +20,7 @@ import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_display.*
+import kotlinx.android.synthetic.main.item_time.view.*
 import kotlinx.android.synthetic.main.item_weather.view.*
 import java.util.*
 import kotlin.concurrent.fixedRateTimer
@@ -37,32 +38,32 @@ class InfoFragment : Fragment(R.layout.fragment_display), OnTempClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         checkLocationPermission()
-        setupObservers()
-    }
-
-    private fun setupObservers() {
         observerLiveData(viewModel.setupLiveDataLists())
+        observerTimeStampText()
     }
 
     private fun observerLiveData(data: LiveData<ArrayList<Weather?>>) {
         data.observe(viewLifecycleOwner, { weather ->
-            setupTimeStampText(weather)
-            setupAdapter(weather)
-        })
-    }
-
-    private fun setupTimeStampText(weather: ArrayList<Weather?>) {
-        weather.map { time ->
-            if (time != null) {
-                timestamp.text = getString(R.string.weather_updated) + time?.timeStamp
+            if (!weather.contains(null)) {
+                setupAdapter(weather)
             }
-        }.toString()
+        })
     }
 
     private fun setupAdapter(weather: ArrayList<Weather?>) {
         adapter = DisplayAdapter(weather, this)
         recycler_view.adapter = adapter
         adapter.notifyDataSetChanged()
+    }
+
+    private fun observerTimeStampText() {
+        viewModel.temp.observe(viewLifecycleOwner, {
+            timestamp.text = if (it?.type != null) {
+                getString(R.string.weather_updated) + it.timeStamp
+            } else {
+                getString(R.string.cant_update_weather_check_internet_connection)
+            }
+        })
     }
 
     private fun checkLocationPermission() {
@@ -79,7 +80,7 @@ class InfoFragment : Fragment(R.layout.fragment_display), OnTempClickListener {
                 else -> {
                     Toast.makeText(
                         context,
-                        "Permission error, please restart the app",
+                        getString(R.string.permission_error),
                         Toast.LENGTH_LONG
                     ).show()
                 }
