@@ -21,6 +21,8 @@
     <string name="sunday">söndag</string>
     <string name="weather_updated">"Vädret uppdaterades: "</string>
     <string name="week">v.</string>
-    <string name="fahrenheit">°F</string>
-    <string name="celsius">°C</string>
+    <string name="fahrenheit" translatable="false">°F</string>
+    <string name="celsius" translatable="false">°C</string>
+    <string name="cant_update_weather_check_internet_connection">Kunde inte uppdatera vädret, var vänlig och kontrollera din internetanslutning.</string>
+    <string name="permission_error">Behörighetsfel. Starta om appen och acceptera behörigheter.</string>
 </resources>

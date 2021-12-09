@@ -108,6 +108,7 @@ class DisplayViewModel @Inject constructor(private val repository: Repository) :
                 }
                 is BackendResult.Error -> {
                     Log.d("tag", "weather fail ${weather.message}")
+                    _temp.postValue(Weather())
                 }
             }
         }

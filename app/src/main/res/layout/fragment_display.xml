@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#272727"
+    android:background="@color/main_background_color"
     android:keepScreenOn="true"
     tools:context=".view.InfoFragment">
 
@@ -21,9 +21,11 @@
 
     <TextView
         android:id="@+id/timestamp"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="16dp"
+        android:gravity="center"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"

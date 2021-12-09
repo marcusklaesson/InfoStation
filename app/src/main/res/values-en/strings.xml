@@ -22,4 +22,6 @@
     <string name="sunday">sunday</string>
     <string name="weather_updated">"Weather updated: "</string>
     <string name="week">w.</string>
+    <string name="permission_error">Permission error, please restart the app and accept permissions.</string>
+    <string name="cant_update_weather_check_internet_connection">Could not update the weather, please check your internet connection.</string>
 </resources>
